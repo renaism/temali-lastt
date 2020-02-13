@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Start from './views/Start.vue'
+import Start from './views/lastt/Start.vue'
 
 Vue.use(Router)
 
 export default new Router({
+    mode: 'history',
     routes: [
         {
-            path: '/',
+            path: '/lastt',
             name: 'start',
             component: Start,
             meta: {
