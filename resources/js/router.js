@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Start from './views/lastt/Start.vue'
+import Test from './views/lastt/Test.vue'
 
 Vue.use(Router)
 
@@ -14,16 +15,16 @@ export default new Router({
             meta: {
                 title: 'Start'
             }
-        }
-        /*
+        },
         {
-            path: '/test',
+            path: '/lastt/test',
             name: 'test',
             component: Test,
             meta: {
                 title: 'Test'
             }
         },
+        /*
         {
             path: '/result',
             name: 'result',

@@ -21,7 +21,7 @@
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 </head>
 <body>
-    <main class="py-4">
+    <main class="pb-5">
         @yield('content')
     </main>
 </body>
