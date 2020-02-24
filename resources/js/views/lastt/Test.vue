@@ -21,10 +21,10 @@
                 Yeay, terakhir nih! Pilih 5-7 aktivitas yang "Nggak enjoy banget ngerjainnya. Bikin capek jiwa. Bahkan kalau bisa, ngehindarin aktivitas-aktivitas ini.."
             </p>
         </div>
-        <swiper :options="swiperOptions">
-            <swiper-slide :key="i" v-for="i in 3">
+        <swiper ref="choiceSwiper" :options="swiperOptions" class="mb-3">
+            <swiper-slide :key="i" v-for="i in pageTotal">
                 <div class="choices">
-                    <div class="choice card mx-auto mb-3" :key="choice.id" v-for="choice in choices.slice(i*6, (i+1)*6)">
+                    <div class="choice card mx-auto mb-3" :key="choice.id" v-for="choice in sectionChoices.slice((i-1) * choicePerPage, i * choicePerPage)" :class="{selected: choice.selected !== -1}" @click="selectChoice(choice.id)">
                         <div class="card-body d-flex justify-content-center align-items-center">
                             <p class="noselect m-0">{{ choice.label }}</p>
                         </div>
@@ -35,6 +35,12 @@
             <div class="swiper-button-prev" slot="button-prev"></div>
             <div class="swiper-button-next" slot="button-next"></div>
         </swiper>
+        <div class="navigation d-flex justify-content-center align-items-center font-weight-bold mb-3">
+            <p class="my-0 mr-2">KUOTA</p>
+            <h2 class="my-0 mr-3"><span class="badge rounded-lg badge-primary py-3 px-4">{{ maxSelect - selectedCount[section] }}</span></h2>
+            <button v-if="section < 3" @click="nextPage()" class="btn btn-lg btn-warning rounded-pill font-weight-bold py-4" :class="{disabled: selectedCount[section] < minSelect}">LANJUT!</button>
+            <button v-else @click="submit()" class="btn btn-lg btn-warning rounded-pill font-weight-bold py-4" :class="{disabled: selectedCount[section] < minSelect}">PROSES HASILNYA!</button>
+        </div>
     </div>
 </template>
 
@@ -57,6 +63,7 @@ export default {
             selectedCount: [0, 0, 0, 0],
             minSelect: 5,
             maxSelect: 7,
+            choicePerPage: 6,
             swiperOptions: {
                 pagination: {
                     el: '.swiper-pagination'
@@ -68,19 +75,26 @@ export default {
             }
         };
     },
+    computed: {
+        sectionChoices: function() {
+            // Get the choices that either are not selected anywhere or selected in the current section
+            return this.choices.filter(c => c.selected === -1 || c.selected === this.section);
+        },
+        pageTotal: function() {
+            // Number of page in pagination based on available choices in the current section
+            return Math.ceil(this.sectionChoices.length / this.choicePerPage)   
+        }
+    },
     methods: {
         // Toggle a choice selected state
-        selectOption(id) {
-            const choice = this.choices.find(opt => opt.id === id);
+        selectChoice(id) {
+            const choice = this.choices.find(c => c.id === id);
             // Set the choice to selected state
-            if (
-                choice.selected === -1 &&
-                this.selectedCount[this.section] < this.maxSelect
-            ) {
+            if (choice.selected === -1 && this.selectedCount[this.section] < this.maxSelect) {
                 choice.selected = this.section;
                 this.selectedCount[this.section]++;
             // Set the choice to deselcted state
-            } else {
+            } else if (choice.selected !== -1) {
                 choice.selected = -1;
                 this.selectedCount[this.section]--;
             }
@@ -89,13 +103,15 @@ export default {
         nextPage() {
             if (this.section < 3) {
                 this.section++;
+                this.$refs.choiceSwiper.swiper.slideTo(0);
                 window.scrollTo(0, 0);
             }
         },
         // Move to the previous section
         previousPage() {
-            if (this.section > 3) {
+            if (this.section > 0) {
                 this.section--;
+                this.$refs.choiceSwiper.swiper.slideTo(0);
                 window.scrollTo(0, 0);
             }
         },
@@ -103,9 +119,9 @@ export default {
         submit() {
             let sel = { 1: [], 2: [], 3: [], 4: [] };
             this.choices
-                .filter(cho => cho.selected != 0)
-                .forEach(cho => {
-                    sel[cho.selected].push(cho.id);
+                .filter(c => c.selected !== -1)
+                .forEach(c => {
+                    sel[c.selected].push(c.id);
                 });
             this.$router.push({
                 name: "result",
@@ -117,7 +133,7 @@ export default {
         axios.get('http://light-assessment-api.temali.space/options')
             .then(res => {
                 this.choices = res.data;
-                this.choices.forEach(choice => this.$set(choice, 'selected', 0));
+                this.choices.forEach(c => this.$set(c, 'selected', -1));
             })
             .catch(err => console.log(err));
     }
@@ -142,6 +158,7 @@ export default {
 .choice {
     max-width: 500px;
     cursor: pointer;
+    border-style: solid;
     border-width: 5px;
     border-color: rgba(0,0,0,0);
     font-weight: bold;
@@ -151,5 +168,9 @@ export default {
 
 .choice:hover {
     background-color: #3A7C80;
+}
+
+.choice.selected {
+    border-color: #333;
 }
 </style>

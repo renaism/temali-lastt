@@ -1989,6 +1989,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2005,6 +2011,7 @@ __webpack_require__.r(__webpack_exports__);
       selectedCount: [0, 0, 0, 0],
       minSelect: 5,
       maxSelect: 7,
+      choicePerPage: 6,
       swiperOptions: {
         pagination: {
           el: '.swiper-pagination'
@@ -2016,17 +2023,31 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
+  computed: {
+    sectionChoices: function sectionChoices() {
+      var _this = this;
+
+      // Get the choices that either are not selected anywhere or selected in the current section
+      return this.choices.filter(function (c) {
+        return c.selected === -1 || c.selected === _this.section;
+      });
+    },
+    pageTotal: function pageTotal() {
+      // Number of page in pagination based on available choices in the current section
+      return Math.ceil(this.sectionChoices.length / this.choicePerPage);
+    }
+  },
   methods: {
     // Toggle a choice selected state
-    selectOption: function selectOption(id) {
-      var choice = this.choices.find(function (opt) {
-        return opt.id === id;
+    selectChoice: function selectChoice(id) {
+      var choice = this.choices.find(function (c) {
+        return c.id === id;
       }); // Set the choice to selected state
 
       if (choice.selected === -1 && this.selectedCount[this.section] < this.maxSelect) {
         choice.selected = this.section;
         this.selectedCount[this.section]++; // Set the choice to deselcted state
-      } else {
+      } else if (choice.selected !== -1) {
         choice.selected = -1;
         this.selectedCount[this.section]--;
       }
@@ -2035,13 +2056,15 @@ __webpack_require__.r(__webpack_exports__);
     nextPage: function nextPage() {
       if (this.section < 3) {
         this.section++;
+        this.$refs.choiceSwiper.swiper.slideTo(0);
         window.scrollTo(0, 0);
       }
     },
     // Move to the previous section
     previousPage: function previousPage() {
-      if (this.section > 3) {
+      if (this.section > 0) {
         this.section--;
+        this.$refs.choiceSwiper.swiper.slideTo(0);
         window.scrollTo(0, 0);
       }
     },
@@ -2053,10 +2076,10 @@ __webpack_require__.r(__webpack_exports__);
         3: [],
         4: []
       };
-      this.choices.filter(function (cho) {
-        return cho.selected != 0;
-      }).forEach(function (cho) {
-        sel[cho.selected].push(cho.id);
+      this.choices.filter(function (c) {
+        return c.selected !== -1;
+      }).forEach(function (c) {
+        sel[c.selected].push(c.id);
       });
       this.$router.push({
         name: "result",
@@ -2067,13 +2090,13 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this = this;
+    var _this2 = this;
 
     axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('http://light-assessment-api.temali.space/options').then(function (res) {
-      _this.choices = res.data;
+      _this2.choices = res.data;
 
-      _this.choices.forEach(function (choice) {
-        return _this.$set(choice, 'selected', 0);
+      _this2.choices.forEach(function (c) {
+        return _this2.$set(c, 'selected', -1);
       });
     })["catch"](function (err) {
       return console.log(err);
@@ -6664,7 +6687,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.role-icons img[data-v-be81177c] {\r\n    width: auto;\r\n    height: 75px;\n}\n.description[data-v-be81177c] {\r\n    font-weight: bold;\r\n    font-size: 18px;\n}\n.choices[data-v-be81177c] {\r\n    margin-bottom: 50px;\n}\n.choice[data-v-be81177c] {\r\n    max-width: 500px;\r\n    cursor: pointer;\r\n    border-width: 5px;\r\n    border-color: rgba(0,0,0,0);\r\n    font-weight: bold;\r\n    background-color: #51A5A8;\r\n    color: #FFF;\n}\n.choice[data-v-be81177c]:hover {\r\n    background-color: #3A7C80;\n}\r\n", ""]);
+exports.push([module.i, "\n.role-icons img[data-v-be81177c] {\r\n    width: auto;\r\n    height: 75px;\n}\n.description[data-v-be81177c] {\r\n    font-weight: bold;\r\n    font-size: 18px;\n}\n.choices[data-v-be81177c] {\r\n    margin-bottom: 50px;\n}\n.choice[data-v-be81177c] {\r\n    max-width: 500px;\r\n    cursor: pointer;\r\n    border-style: solid;\r\n    border-width: 5px;\r\n    border-color: rgba(0,0,0,0);\r\n    font-weight: bold;\r\n    background-color: #51A5A8;\r\n    color: #FFF;\n}\n.choice[data-v-be81177c]:hover {\r\n    background-color: #3A7C80;\n}\n.choice.selected[data-v-be81177c] {\r\n    border-color: #333;\n}\r\n", ""]);
 
 // exports
 
@@ -46470,33 +46493,52 @@ var render = function() {
       _vm._v(" "),
       _c(
         "swiper",
-        { attrs: { options: _vm.swiperOptions } },
+        {
+          ref: "choiceSwiper",
+          staticClass: "mb-3",
+          attrs: { options: _vm.swiperOptions }
+        },
         [
-          _vm._l(3, function(i) {
+          _vm._l(_vm.pageTotal, function(i) {
             return _c("swiper-slide", { key: i }, [
               _c(
                 "div",
                 { staticClass: "choices" },
-                _vm._l(_vm.choices.slice(i * 6, (i + 1) * 6), function(choice) {
-                  return _c(
-                    "div",
-                    { key: choice.id, staticClass: "choice card mx-auto mb-3" },
-                    [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "card-body d-flex justify-content-center align-items-center"
-                        },
-                        [
-                          _c("p", { staticClass: "noselect m-0" }, [
-                            _vm._v(_vm._s(choice.label))
-                          ])
-                        ]
-                      )
-                    ]
-                  )
-                }),
+                _vm._l(
+                  _vm.sectionChoices.slice(
+                    (i - 1) * _vm.choicePerPage,
+                    i * _vm.choicePerPage
+                  ),
+                  function(choice) {
+                    return _c(
+                      "div",
+                      {
+                        key: choice.id,
+                        staticClass: "choice card mx-auto mb-3",
+                        class: { selected: choice.selected !== -1 },
+                        on: {
+                          click: function($event) {
+                            return _vm.selectChoice(choice.id)
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "card-body d-flex justify-content-center align-items-center"
+                          },
+                          [
+                            _c("p", { staticClass: "noselect m-0" }, [
+                              _vm._v(_vm._s(choice.label))
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  }
+                ),
                 0
               )
             ])
@@ -46521,6 +46563,59 @@ var render = function() {
           })
         ],
         2
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "navigation d-flex justify-content-center align-items-center font-weight-bold mb-3"
+        },
+        [
+          _c("p", { staticClass: "my-0 mr-2" }, [_vm._v("KUOTA")]),
+          _vm._v(" "),
+          _c("h2", { staticClass: "my-0 mr-3" }, [
+            _c(
+              "span",
+              { staticClass: "badge rounded-lg badge-primary py-3 px-4" },
+              [_vm._v(_vm._s(_vm.maxSelect - _vm.selectedCount[_vm.section]))]
+            )
+          ]),
+          _vm._v(" "),
+          _vm.section < 3
+            ? _c(
+                "button",
+                {
+                  staticClass:
+                    "btn btn-lg btn-warning rounded-pill font-weight-bold py-4",
+                  class: {
+                    disabled: _vm.selectedCount[_vm.section] < _vm.minSelect
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.nextPage()
+                    }
+                  }
+                },
+                [_vm._v("LANJUT!")]
+              )
+            : _c(
+                "button",
+                {
+                  staticClass:
+                    "btn btn-lg btn-warning rounded-pill font-weight-bold py-4",
+                  class: {
+                    disabled: _vm.selectedCount[_vm.section] < _vm.minSelect
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.submit()
+                    }
+                  }
+                },
+                [_vm._v("PROSES HASILNYA!")]
+              )
+        ]
       )
     ],
     1
