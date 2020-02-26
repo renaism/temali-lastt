@@ -1,6 +1,50 @@
 /******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	function webpackJsonpCallback(data) {
+/******/ 		var chunkIds = data[0];
+/******/ 		var moreModules = data[1];
+/******/
+/******/
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/
+/******/ 	};
+/******/
+/******/
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
+/******/
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// Promise = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		"/js/app": 0
+/******/ 	};
+/******/
+/******/
+/******/
+/******/ 	// script path function
+/******/ 	function jsonpScriptSrc(chunkId) {
+/******/ 		return __webpack_require__.p + "" + ({}[chunkId]||chunkId) + ".js"
+/******/ 	}
 /******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -26,6 +70,67 @@
 /******/ 		return module.exports;
 /******/ 	}
 /******/
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
+/******/ 		var promises = [];
+/******/
+/******/
+/******/ 		// JSONP chunk loading for javascript
+/******/
+/******/ 		var installedChunkData = installedChunks[chunkId];
+/******/ 		if(installedChunkData !== 0) { // 0 means "already installed".
+/******/
+/******/ 			// a Promise means "currently loading".
+/******/ 			if(installedChunkData) {
+/******/ 				promises.push(installedChunkData[2]);
+/******/ 			} else {
+/******/ 				// setup Promise in chunk cache
+/******/ 				var promise = new Promise(function(resolve, reject) {
+/******/ 					installedChunkData = installedChunks[chunkId] = [resolve, reject];
+/******/ 				});
+/******/ 				promises.push(installedChunkData[2] = promise);
+/******/
+/******/ 				// start chunk loading
+/******/ 				var script = document.createElement('script');
+/******/ 				var onScriptComplete;
+/******/
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.src = jsonpScriptSrc(chunkId);
+/******/
+/******/ 				// create error before stack unwound to get useful stacktrace later
+/******/ 				var error = new Error();
+/******/ 				onScriptComplete = function (event) {
+/******/ 					// avoid mem leaks in IE.
+/******/ 					script.onerror = script.onload = null;
+/******/ 					clearTimeout(timeout);
+/******/ 					var chunk = installedChunks[chunkId];
+/******/ 					if(chunk !== 0) {
+/******/ 						if(chunk) {
+/******/ 							var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 							var realSrc = event && event.target && event.target.src;
+/******/ 							error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 							error.name = 'ChunkLoadError';
+/******/ 							error.type = errorType;
+/******/ 							error.request = realSrc;
+/******/ 							chunk[1](error);
+/******/ 						}
+/******/ 						installedChunks[chunkId] = undefined;
+/******/ 					}
+/******/ 				};
+/******/ 				var timeout = setTimeout(function(){
+/******/ 					onScriptComplete({ type: 'timeout', target: script });
+/******/ 				}, 120000);
+/******/ 				script.onerror = script.onload = onScriptComplete;
+/******/ 				document.head.appendChild(script);
+/******/ 			}
+/******/ 		}
+/******/ 		return Promise.all(promises);
+/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -78,6 +183,16 @@
 /******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "/";
+/******/
+/******/ 	// on error function for async loading
+/******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
+/******/
+/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
 /******/
 /******/
 /******/ 	// Load entry module and return exports
@@ -2009,7 +2124,7 @@ __webpack_require__.r(__webpack_exports__);
       section: 0,
       choices: [],
       selectedCount: [0, 0, 0, 0],
-      minSelect: 5,
+      minSelect: 2,
       maxSelect: 7,
       choicePerPage: 6,
       swiperOptions: {
@@ -2054,6 +2169,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     // Move to the next section 
     nextPage: function nextPage() {
+      if (this.selectedCount[this.section] < this.minSelect) {
+        return;
+      }
+
       if (this.section < 3) {
         this.section++;
         this.$refs.choiceSwiper.swiper.slideTo(0);
@@ -2070,16 +2189,15 @@ __webpack_require__.r(__webpack_exports__);
     },
     // Submit user input and open the result page
     submit: function submit() {
-      var sel = {
-        1: [],
-        2: [],
-        3: [],
-        4: []
-      };
+      if (this.selectedCount[this.section] < this.minSelect) {
+        return;
+      }
+
+      var sel = [[], [], [], [], []];
       this.choices.filter(function (c) {
         return c.selected !== -1;
       }).forEach(function (c) {
-        sel[c.selected].push(c.id);
+        sel[c.selected + 1].push(c.id);
       });
       this.$router.push({
         name: "result",
@@ -6687,7 +6805,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.role-icons img[data-v-be81177c] {\r\n    width: auto;\r\n    height: 75px;\n}\n.description[data-v-be81177c] {\r\n    font-weight: bold;\r\n    font-size: 18px;\n}\n.choices[data-v-be81177c] {\r\n    margin-bottom: 50px;\n}\n.choice[data-v-be81177c] {\r\n    max-width: 500px;\r\n    cursor: pointer;\r\n    border-style: solid;\r\n    border-width: 5px;\r\n    border-color: rgba(0,0,0,0);\r\n    font-weight: bold;\r\n    background-color: #51A5A8;\r\n    color: #FFF;\n}\n.choice[data-v-be81177c]:hover {\r\n    background-color: #3A7C80;\n}\n.choice.selected[data-v-be81177c] {\r\n    border-color: #333;\n}\r\n", ""]);
+exports.push([module.i, "\n.description[data-v-be81177c] {\r\n    max-width: 500px;\r\n    margin: auto;\r\n    font-weight: bold;\r\n    font-size: 18px;\n}\n.choices[data-v-be81177c] {\r\n    margin-bottom: 50px;\n}\n.choice[data-v-be81177c] {\r\n    max-width: 500px;\r\n    cursor: pointer;\r\n    border-style: solid;\r\n    border-width: 5px;\r\n    border-color: rgba(0,0,0,0);\r\n    font-weight: bold;\r\n    background-color: #51A5A8;\r\n    color: #FFF;\n}\n.choice[data-v-be81177c]:hover {\r\n    background-color: #3A7C80;\n}\n.choice.selected[data-v-be81177c] {\r\n    border-color: #333;\n}\r\n", ""]);
 
 // exports
 
@@ -46417,7 +46535,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "mt-5", attrs: { id: "btnWrapper" } }, [
         _c(
           "a",
-          { staticClass: "my-super-cool-btn", attrs: { href: "/test" } },
+          { staticClass: "my-super-cool-btn", attrs: { href: "/lastt/test" } },
           [
             _c("div", { staticClass: "dots-container" }, [
               _c("div", { staticClass: "dot" }),
@@ -46628,27 +46746,27 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "role-icons mb-5" }, [
       _c("img", {
-        staticClass: "mx-3",
+        staticClass: "role-icon mx-3",
         attrs: { src: "/images/role_icons/JOURNALIST.png" }
       }),
       _vm._v(" "),
       _c("img", {
-        staticClass: "mx-3",
+        staticClass: "role-icon mx-3",
         attrs: { src: "/images/role_icons/ADMINISTRATOR.png" }
       }),
       _vm._v(" "),
       _c("img", {
-        staticClass: "mx-3",
+        staticClass: "role-icon mx-3",
         attrs: { src: "/images/role_icons/ANALYST.png" }
       }),
       _vm._v(" "),
       _c("img", {
-        staticClass: "mx-3",
+        staticClass: "role-icon mx-3",
         attrs: { src: "/images/role_icons/VISIONARY.png" }
       }),
       _vm._v(" "),
       _c("img", {
-        staticClass: "mx-3",
+        staticClass: "role-icon mx-3",
         attrs: { src: "/images/role_icons/CARETAKER.png" }
       })
     ])
@@ -61903,19 +62021,31 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     meta: {
       title: 'Test'
     }
-  }
-  /*
-  {
-      path: '/result',
-      name: 'result',
-      component: () => import('./views/Result.vue'),
-      props: (route) => (route.params),
-      meta: {
-          title: 'Result'
-      }
-  }
-  */
-  ]
+  }, {
+    path: '/lastt/result',
+    name: 'result',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./views/lastt/Result.vue */ "./resources/js/views/lastt/Result.vue"));
+    },
+    props: function props(route) {
+      return route.params;
+    },
+    meta: {
+      title: 'Result'
+    }
+  }, {
+    path: '/lastt/result_test',
+    name: 'result_test',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./views/lastt/Result.vue */ "./resources/js/views/lastt/Result.vue"));
+    },
+    props: {
+      selectedOptions: [[], ['ADM', 'CRE', 'INT', 'DES', 'SYN', 'TRE'], [], [], ['ADM', 'CRE', 'INT', 'DES', 'SYN', 'TRE']]
+    },
+    meta: {
+      title: 'Result'
+    }
+  }]
 }));
 
 /***/ }),

@@ -1,11 +1,11 @@
 <template>
     <div class="test">
         <div class="role-icons mb-5">
-            <img class="mx-3" src="/images/role_icons/JOURNALIST.png">
-            <img class="mx-3" src="/images/role_icons/ADMINISTRATOR.png">
-            <img class="mx-3" src="/images/role_icons/ANALYST.png">
-            <img class="mx-3" src="/images/role_icons/VISIONARY.png">
-            <img class="mx-3" src="/images/role_icons/CARETAKER.png">
+            <img class="role-icon mx-3" src="/images/role_icons/JOURNALIST.png">
+            <img class="role-icon mx-3" src="/images/role_icons/ADMINISTRATOR.png">
+            <img class="role-icon mx-3" src="/images/role_icons/ANALYST.png">
+            <img class="role-icon mx-3" src="/images/role_icons/VISIONARY.png">
+            <img class="role-icon mx-3" src="/images/role_icons/CARETAKER.png">
         </div>
         <div class="description mb-3">
             <p v-if="section === 0">
@@ -61,7 +61,7 @@ export default {
             section: 0,
             choices: [],
             selectedCount: [0, 0, 0, 0],
-            minSelect: 5,
+            minSelect: 2,
             maxSelect: 7,
             choicePerPage: 6,
             swiperOptions: {
@@ -101,6 +101,10 @@ export default {
         },
         // Move to the next section 
         nextPage() {
+            if (this.selectedCount[this.section] < this.minSelect) {
+                return;
+            }
+
             if (this.section < 3) {
                 this.section++;
                 this.$refs.choiceSwiper.swiper.slideTo(0);
@@ -117,11 +121,15 @@ export default {
         },
         // Submit user input and open the result page
         submit() {
-            let sel = { 1: [], 2: [], 3: [], 4: [] };
+            if (this.selectedCount[this.section] < this.minSelect) {
+                return;
+            }
+
+            let sel = [[], [], [], [], []];
             this.choices
                 .filter(c => c.selected !== -1)
                 .forEach(c => {
-                    sel[c.selected].push(c.id);
+                    sel[c.selected+1].push(c.id);
                 });
             this.$router.push({
                 name: "result",
@@ -141,12 +149,9 @@ export default {
 </script>
 
 <style scoped>
-.role-icons img {
-    width: auto;
-    height: 75px;
-}
-
 .description {
+    max-width: 500px;
+    margin: auto;
     font-weight: bold;
     font-size: 18px;
 }

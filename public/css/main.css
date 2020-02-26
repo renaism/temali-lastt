@@ -27,3 +27,8 @@
     border-style: solid;
     border-top: none;
 }
+
+.role-icon {
+    width: auto;
+    height: 100px;
+}

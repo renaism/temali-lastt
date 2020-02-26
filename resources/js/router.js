@@ -24,16 +24,25 @@ export default new Router({
                 title: 'Test'
             }
         },
-        /*
         {
-            path: '/result',
+            path: '/lastt/result',
             name: 'result',
-            component: () => import('./views/Result.vue'),
+            component: () => import('./views/lastt/Result.vue'),
             props: (route) => (route.params),
             meta: {
                 title: 'Result'
             }
+        },
+        {
+            path: '/lastt/result_test',
+            name: 'result_test',
+            component: () => import('./views/lastt/Result.vue'),
+            props: {
+                selectedOptions: [[], ['ADM', 'CRE', 'INT', 'DES', 'SYN', 'TRE'], [], [], ['ADM', 'CRE', 'INT', 'DES', 'SYN', 'TRE']]
+            },
+            meta: {
+                title: 'Result'
+            }
         }
-        */
     ]
 })

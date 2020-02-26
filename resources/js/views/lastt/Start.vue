@@ -4,7 +4,7 @@
             Kamu akan disuruh memilih beberapa deskripsi diri yang paling cocok dengan diri kamu. Kalau sudah siap langsung aja klik mulai ya..
         </p>
         <div id="btnWrapper" class="mt-5">
-            <a href="/test" class="my-super-cool-btn">
+            <a href="/lastt/test" class="my-super-cool-btn">
                 <div class="dots-container">
                     <div class="dot"></div>
                     <div class="dot"></div>
