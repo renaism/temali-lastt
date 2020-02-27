@@ -21,4 +21,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // Light Assessment routes
 Route::get('/lastt', 'LasttController@index');
-Route::get('/lastt/{vue}', 'LasttController@index')->where('vue', '.*');
+Route::get('/lastt/start', 'LasttController@index');
+Route::get('/lastt/test', 'LasttController@test');

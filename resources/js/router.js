@@ -9,14 +9,6 @@ export default new Router({
     mode: 'history',
     routes: [
         {
-            path: '/lastt',
-            name: 'start',
-            component: Start,
-            meta: {
-                title: 'Start'
-            }
-        },
-        {
             path: '/lastt/test',
             name: 'test',
             component: Test,

@@ -62008,13 +62008,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 /* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
   routes: [{
-    path: '/lastt',
-    name: 'start',
-    component: _views_lastt_Start_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    meta: {
-      title: 'Start'
-    }
-  }, {
     path: '/lastt/test',
     name: 'test',
     component: _views_lastt_Test_vue__WEBPACK_IMPORTED_MODULE_3__["default"],

@@ -315,7 +315,7 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c("router-link", { attrs: { to: "/test" } }, [
+      _c("router-link", { attrs: { to: "/lastt/test" } }, [
         _c(
           "a",
           { staticClass: "btn-lg btn-link text-center d-block mx-auto my-3" },
