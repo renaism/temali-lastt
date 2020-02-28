@@ -37,7 +37,7 @@
         </swiper>
         <div class="navigation d-flex justify-content-center align-items-center font-weight-bold mb-3">
             <p class="my-0 mr-2">KUOTA</p>
-            <h2 class="my-0 mr-3"><span class="badge rounded-lg badge-primary py-3 px-4">{{ maxSelect - selectedCount[section] }}</span></h2>
+            <h2 class="my-0 mr-3"><span class="quota badge rounded-lg badge-primary py-3 px-4">{{ maxSelect - selectedCount[section] }}</span></h2>
             <button v-if="section < 3" @click="nextPage()" class="btn btn-lg btn-warning rounded-pill font-weight-bold py-4" :class="{disabled: selectedCount[section] < minSelect}">LANJUT!</button>
             <button v-else @click="submit()" class="btn btn-lg btn-warning rounded-pill font-weight-bold py-4" :class="{disabled: selectedCount[section] < minSelect}">PROSES HASILNYA!</button>
         </div>
@@ -171,11 +171,48 @@ export default {
     color: #FFF; 
 }
 
+.choice.sec-0 {
+    background-color: #FAA200;
+}
+
+.choice.sec-0:hover {
+    background-color: #F2D399;
+} 
+
+.choice.sec-1 {
+    background-color: #9FBA4A;
+}
+
+.choice.sec-1:hover {
+    background-color: #D6E6A3;
+}
+
+.choice.sec-2 {
+    background-color: #FFF;
+}
+
+.choice.sec-2:hover {
+    background-color: #FFF;
+}
+
+.choice.sec-3 {
+    background-color: #FFF;
+}
+
+.choice.sec-3:hover {
+    background-color: #FFF;
+}
+
 .choice:hover {
     background-color: #3A7C80;
 }
 
 .choice.selected {
     border-color: #333;
+}
+
+.quota {
+    background-color: #566FB8;
+    box-shadow: 0 5px #94A3CF;
 }
 </style>
