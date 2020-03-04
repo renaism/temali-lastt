@@ -69,7 +69,7 @@ a.btn {
     <p class="mb-5">
         Jika sudah siap, klik MULAI ya!
     </p>
-    <a href="/lastt/test" class="btn btn-large btn-warning rounded-circle d-flex justify-content-center align-items-center">
+    <a href="/lastt/test" class="btn btn-large btn-temali rounded-circle d-flex justify-content-center align-items-center">
         <span>MULAI!</span>
     </a>
 </div>

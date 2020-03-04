@@ -6805,7 +6805,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.description[data-v-be81177c] {\r\n    max-width: 500px;\r\n    margin: auto;\r\n    font-weight: bold;\r\n    font-size: 18px;\n}\n.choices[data-v-be81177c] {\r\n    margin-bottom: 50px;\n}\n.choice[data-v-be81177c] {\r\n    max-width: 500px;\r\n    cursor: pointer;\r\n    border-style: solid;\r\n    border-width: 5px;\r\n    border-color: rgba(0,0,0,0);\r\n    font-weight: bold;\r\n    background-color: #51A5A8;\r\n    color: #FFF;\n}\n.choice[data-v-be81177c]:hover {\r\n    background-color: #3A7C80;\n}\n.choice.selected[data-v-be81177c] {\r\n    border-color: #333;\n}\r\n", ""]);
+exports.push([module.i, "\n.description[data-v-be81177c] {\r\n    max-width: 500px;\r\n    margin: auto;\r\n    font-weight: bold;\r\n    font-size: 18px;\n}\n.choices[data-v-be81177c] {\r\n    margin-bottom: 50px;\n}\n.choice[data-v-be81177c] {\r\n    max-width: 500px;\r\n    cursor: pointer;\r\n    border-style: solid;\r\n    border-width: 5px;\r\n    border-color: rgba(0,0,0,0);\r\n    font-weight: bold;\r\n    background-color: #51A5A8;\r\n    color: #FFF;\n}\n.choice.sec-0[data-v-be81177c] {\r\n    background-color: #FAA200;\n}\n.choice.sec-0[data-v-be81177c]:hover {\r\n    background-color: #F2D399;\n}\n.choice.sec-1[data-v-be81177c] {\r\n    background-color: #9FBA4A;\n}\n.choice.sec-1[data-v-be81177c]:hover {\r\n    background-color: #D6E6A3;\n}\n.choice.sec-2[data-v-be81177c] {\r\n    background-color: #FFF;\n}\n.choice.sec-2[data-v-be81177c]:hover {\r\n    background-color: #FFF;\n}\n.choice.sec-3[data-v-be81177c] {\r\n    background-color: #FFF;\n}\n.choice.sec-3[data-v-be81177c]:hover {\r\n    background-color: #FFF;\n}\n.choice[data-v-be81177c]:hover {\r\n    background-color: #3A7C80;\n}\n.choice.selected[data-v-be81177c] {\r\n    border-color: #333;\n}\n.quota[data-v-be81177c] {\r\n    background-color: #566FB8;\r\n    box-shadow: 0 5px #94A3CF;\n}\r\n", ""]);
 
 // exports
 
@@ -46695,7 +46695,7 @@ var render = function() {
           _c("h2", { staticClass: "my-0 mr-3" }, [
             _c(
               "span",
-              { staticClass: "badge rounded-lg badge-primary py-3 px-4" },
+              { staticClass: "quota badge rounded-lg badge-primary py-3 px-4" },
               [_vm._v(_vm._s(_vm.maxSelect - _vm.selectedCount[_vm.section]))]
             )
           ]),
@@ -46705,7 +46705,7 @@ var render = function() {
                 "button",
                 {
                   staticClass:
-                    "btn btn-lg btn-warning rounded-pill font-weight-bold py-4",
+                    "btn btn-lg btn-temali rounded-pill font-weight-bold py-4",
                   class: {
                     disabled: _vm.selectedCount[_vm.section] < _vm.minSelect
                   },

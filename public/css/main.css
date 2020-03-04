@@ -38,4 +38,10 @@ body {
 
 .btn.btn-temali {
     background-color: #F2BB30;
+    color: black;
+}
+
+.btn.btn-temali:hover {
+    background-color: #ED4545;
+    color: white;
 }

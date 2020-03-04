@@ -38,7 +38,7 @@
         <div class="navigation d-flex justify-content-center align-items-center font-weight-bold mb-3">
             <p class="my-0 mr-2">KUOTA</p>
             <h2 class="my-0 mr-3"><span class="quota badge rounded-lg badge-primary py-3 px-4">{{ maxSelect - selectedCount[section] }}</span></h2>
-            <button v-if="section < 3" @click="nextPage()" class="btn btn-lg btn-warning rounded-pill font-weight-bold py-4" :class="{disabled: selectedCount[section] < minSelect}">LANJUT!</button>
+            <button v-if="section < 3" @click="nextPage()" class="btn btn-lg btn-temali rounded-pill font-weight-bold py-4" :class="{disabled: selectedCount[section] < minSelect}">LANJUT!</button>
             <button v-else @click="submit()" class="btn btn-lg btn-warning rounded-pill font-weight-bold py-4" :class="{disabled: selectedCount[section] < minSelect}">PROSES HASILNYA!</button>
         </div>
     </div>
