@@ -2105,11 +2105,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -2124,9 +2119,10 @@ __webpack_require__.r(__webpack_exports__);
       section: 0,
       choices: [],
       selectedCount: [0, 0, 0, 0],
-      minSelect: 2,
+      minSelect: 5,
       maxSelect: 7,
       choicePerPage: 6,
+      btnWarning: "Pilih minimal 5",
       swiperOptions: {
         pagination: {
           el: '.swiper-pagination'
@@ -2166,6 +2162,15 @@ __webpack_require__.r(__webpack_exports__);
         choice.selected = -1;
         this.selectedCount[this.section]--;
       }
+    },
+    choiceClass: function choiceClass(selected) {
+      return {
+        'selected': selected,
+        'sec-0': this.section == 0,
+        'sec-1': this.section == 1,
+        'sec-2': this.section == 2,
+        'sec-3': this.section == 3
+      };
     },
     // Move to the next section 
     nextPage: function nextPage() {
@@ -6805,7 +6810,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.description[data-v-be81177c] {\r\n    max-width: 500px;\r\n    margin: auto;\r\n    font-weight: bold;\r\n    font-size: 18px;\n}\n.choices[data-v-be81177c] {\r\n    margin-bottom: 50px;\n}\n.choice[data-v-be81177c] {\r\n    max-width: 500px;\r\n    cursor: pointer;\r\n    border-style: solid;\r\n    border-width: 5px;\r\n    border-color: rgba(0,0,0,0);\r\n    font-weight: bold;\r\n    background-color: #51A5A8;\r\n    color: #FFF;\n}\n.choice.sec-0[data-v-be81177c] {\r\n    background-color: #FAA200;\n}\n.choice.sec-0[data-v-be81177c]:hover {\r\n    background-color: #F2D399;\n}\n.choice.sec-1[data-v-be81177c] {\r\n    background-color: #9FBA4A;\n}\n.choice.sec-1[data-v-be81177c]:hover {\r\n    background-color: #D6E6A3;\n}\n.choice.sec-2[data-v-be81177c] {\r\n    background-color: #FFF;\n}\n.choice.sec-2[data-v-be81177c]:hover {\r\n    background-color: #FFF;\n}\n.choice.sec-3[data-v-be81177c] {\r\n    background-color: #FFF;\n}\n.choice.sec-3[data-v-be81177c]:hover {\r\n    background-color: #FFF;\n}\n.choice[data-v-be81177c]:hover {\r\n    background-color: #3A7C80;\n}\n.choice.selected[data-v-be81177c] {\r\n    border-color: #333;\n}\n.quota[data-v-be81177c] {\r\n    background-color: #566FB8;\r\n    box-shadow: 0 5px #94A3CF;\n}\r\n", ""]);
+exports.push([module.i, "\n.description[data-v-be81177c] {\r\n    max-width: 500px;\r\n    margin: auto;\r\n    font-weight: bold;\r\n    font-size: 18px;\n}\n.choicesWrapper[data-v-be81177c] {\r\n    height: 500px;\r\n    margin-bottom: 50px;\r\n    max-width: 550px;\n}\n.choice[data-v-be81177c] {\r\n    max-width: 90%;\r\n    cursor: pointer;\r\n    border-style: solid;\r\n    border-width: 5px;\r\n    border-color: rgba(0,0,0,0);\r\n    font-weight: bold;\r\n    background-color: #51A5A8;\r\n    color: #FFF;\n}\n.choice.sec-0[data-v-be81177c] {\r\n    background-color: #51A5A8;\n}\n.choice.sec-0[data-v-be81177c]:hover {\r\n    background-color: #3A7C80;\n}\n.choice.sec-1[data-v-be81177c] {\r\n    background-color: #9FBA4A;\n}\n.choice.sec-1[data-v-be81177c]:hover {\r\n    background-color: #687931;\n}\n.choice.sec-2[data-v-be81177c] {\r\n    background-color: #FAA200;\n}\n.choice.sec-2[data-v-be81177c]:hover {\r\n    background-color: #9e6803;\n}\n.choice.sec-3[data-v-be81177c] {\r\n    background-color: #c74545;\n}\n.choice.sec-3[data-v-be81177c]:hover {\r\n    background-color: #7a3d3d;\n}\n.choice[data-v-be81177c]:hover {\r\n    background-color: #3A7C80;\n}\n.choice.selected[data-v-be81177c] {\r\n    border-color: #333;\n}\n.quota[data-v-be81177c] {\r\n    background-color: #566FB8;\r\n    box-shadow: 0 5px #94A3CF;\n}\n.btn.invisible[data-v-be81177c] {\r\n    display: none;\n}\r\n", ""]);
 
 // exports
 
@@ -46575,169 +46580,127 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "test" },
-    [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "description mb-3" }, [
-        _vm.section === 0
-          ? _c("p", [
-              _vm._v(
-                '\n            Pertama, pilih 5-7 aktivitas yang menurutmu "Aku enjoy banget ngerjainnya! Malah jadi dapet energi."\n        '
-              )
-            ])
-          : _vm.section === 1
-          ? _c("p", [
-              _vm._v(
-                '\n            Nah, sekarang pilih 5-7 aktivitas yang "Hmm, kayaknya aku lumayan suka aktivitas ini.." (walaupun nggak pake banget).\n        '
-              )
-            ])
-          : _vm.section === 2
-          ? _c("p", [
-              _vm._v(
-                '\n            Kemudian, pilih 5-7 aktivitas yang "Sebenernya nggak begitu suka sih, tapi okelah kalau emang harus dikerjain."\n        '
-              )
-            ])
-          : _vm.section === 3
-          ? _c("p", [
-              _vm._v(
-                '\n            Yeay, terakhir nih! Pilih 5-7 aktivitas yang "Nggak enjoy banget ngerjainnya. Bikin capek jiwa. Bahkan kalau bisa, ngehindarin aktivitas-aktivitas ini.."\n        '
-              )
-            ])
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c(
-        "swiper",
-        {
-          ref: "choiceSwiper",
-          staticClass: "mb-3",
-          attrs: { options: _vm.swiperOptions }
-        },
-        [
-          _vm._l(_vm.pageTotal, function(i) {
-            return _c("swiper-slide", { key: i }, [
-              _c(
-                "div",
-                { staticClass: "choices" },
-                _vm._l(
-                  _vm.sectionChoices.slice(
-                    (i - 1) * _vm.choicePerPage,
-                    i * _vm.choicePerPage
-                  ),
-                  function(choice) {
-                    return _c(
-                      "div",
-                      {
-                        key: choice.id,
-                        staticClass: "choice card mx-auto mb-3",
-                        class: { selected: choice.selected !== -1 },
-                        on: {
-                          click: function($event) {
-                            return _vm.selectChoice(choice.id)
-                          }
-                        }
-                      },
-                      [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "card-body d-flex justify-content-center align-items-center"
-                          },
-                          [
-                            _c("p", { staticClass: "noselect m-0" }, [
-                              _vm._v(_vm._s(choice.label))
-                            ])
-                          ]
-                        )
-                      ]
-                    )
-                  }
-                ),
-                0
-              )
-            ])
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "swiper-pagination",
-            attrs: { slot: "pagination" },
-            slot: "pagination"
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "swiper-button-prev",
-            attrs: { slot: "button-prev" },
-            slot: "button-prev"
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "swiper-button-next",
-            attrs: { slot: "button-next" },
-            slot: "button-next"
-          })
-        ],
-        2
-      ),
-      _vm._v(" "),
+  return _c("div", { staticClass: "test" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "description mb-3" }, [
+      _vm.section === 0
+        ? _c("p", [
+            _vm._v(
+              '\n            Pertama, pilih 5-7 aktivitas yang menurutmu "Aku enjoy banget ngerjainnya! Malah jadi dapet energi."\n        '
+            )
+          ])
+        : _vm.section === 1
+        ? _c("p", [
+            _vm._v(
+              '\n            Nah, sekarang pilih 5-7 aktivitas yang "Hmm, kayaknya aku lumayan suka aktivitas ini.." (walaupun nggak pake banget).\n        '
+            )
+          ])
+        : _vm.section === 2
+        ? _c("p", [
+            _vm._v(
+              '\n            Kemudian, pilih 5-7 aktivitas yang "Sebenernya nggak begitu suka sih, tapi okelah kalau emang harus dikerjain."\n        '
+            )
+          ])
+        : _vm.section === 3
+        ? _c("p", [
+            _vm._v(
+              '\n            Yeay, terakhir nih! Pilih 5-7 aktivitas yang "Nggak enjoy banget ngerjainnya. Bikin capek jiwa. Bahkan kalau bisa, ngehindarin aktivitas-aktivitas ini.."\n        '
+            )
+          ])
+        : _vm._e()
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "choicesWrapper mx-auto overflow-auto" }, [
       _c(
         "div",
-        {
-          staticClass:
-            "navigation d-flex justify-content-center align-items-center font-weight-bold mb-3"
-        },
-        [
-          _c("p", { staticClass: "my-0 mr-2" }, [_vm._v("KUOTA")]),
-          _vm._v(" "),
-          _c("h2", { staticClass: "my-0 mr-3" }, [
-            _c(
-              "span",
-              { staticClass: "quota badge rounded-lg badge-primary py-3 px-4" },
-              [_vm._v(_vm._s(_vm.maxSelect - _vm.selectedCount[_vm.section]))]
-            )
-          ]),
-          _vm._v(" "),
-          _vm.section < 3
-            ? _c(
-                "button",
+        { staticClass: "choices" },
+        _vm._l(_vm.sectionChoices, function(choice) {
+          return _c(
+            "div",
+            {
+              key: choice.id,
+              staticClass: "choice card mx-auto mb-3",
+              class: _vm.choiceClass(choice.selected !== -1),
+              on: {
+                click: function($event) {
+                  return _vm.selectChoice(choice.id)
+                }
+              }
+            },
+            [
+              _c(
+                "div",
                 {
                   staticClass:
-                    "btn btn-lg btn-temali rounded-pill font-weight-bold py-4",
-                  class: {
-                    disabled: _vm.selectedCount[_vm.section] < _vm.minSelect
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.nextPage()
-                    }
-                  }
+                    "card-body d-flex justify-content-center align-items-center"
                 },
-                [_vm._v("LANJUT!")]
+                [
+                  _c("p", { staticClass: "noselect m-0" }, [
+                    _vm._v(_vm._s(choice.label))
+                  ])
+                ]
               )
-            : _c(
-                "button",
-                {
-                  staticClass:
-                    "btn btn-lg btn-warning rounded-pill font-weight-bold py-4",
-                  class: {
-                    disabled: _vm.selectedCount[_vm.section] < _vm.minSelect
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.submit()
-                    }
-                  }
-                },
-                [_vm._v("PROSES HASILNYA!")]
-              )
-        ]
+            ]
+          )
+        }),
+        0
       )
-    ],
-    1
-  )
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass:
+          "navigation d-flex justify-content-center align-items-center font-weight-bold mb-3"
+      },
+      [
+        _c("p", { staticClass: "my-0 mr-2" }, [_vm._v("KUOTA")]),
+        _vm._v(" "),
+        _c("h2", { staticClass: "my-0 mr-3" }, [
+          _c(
+            "span",
+            { staticClass: "quota badge rounded-lg badge-primary py-3 px-4" },
+            [_vm._v(_vm._s(_vm.maxSelect - _vm.selectedCount[_vm.section]))]
+          )
+        ]),
+        _vm._v(" "),
+        _vm.section < 3
+          ? _c(
+              "button",
+              {
+                staticClass:
+                  "btn btn-lg btn-temali rounded-pill font-weight-bold py-4",
+                class: {
+                  invisible: _vm.selectedCount[_vm.section] < _vm.minSelect
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.nextPage()
+                  }
+                }
+              },
+              [_vm._v("LANJUT!")]
+            )
+          : _c(
+              "button",
+              {
+                staticClass:
+                  "btn btn-lg btn-temali rounded-pill font-weight-bold py-4",
+                class: {
+                  invisible: _vm.selectedCount[_vm.section] < _vm.minSelect
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.submit()
+                  }
+                }
+              },
+              [_vm._v("PROSES HASILNYA!")]
+            )
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {

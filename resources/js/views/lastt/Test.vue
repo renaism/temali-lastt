@@ -21,25 +21,20 @@
                 Yeay, terakhir nih! Pilih 5-7 aktivitas yang "Nggak enjoy banget ngerjainnya. Bikin capek jiwa. Bahkan kalau bisa, ngehindarin aktivitas-aktivitas ini.."
             </p>
         </div>
-        <swiper ref="choiceSwiper" :options="swiperOptions" class="mb-3">
-            <swiper-slide :key="i" v-for="i in pageTotal">
-                <div class="choices">
-                    <div class="choice card mx-auto mb-3" :key="choice.id" v-for="choice in sectionChoices.slice((i-1) * choicePerPage, i * choicePerPage)" :class="{selected: choice.selected !== -1}" @click="selectChoice(choice.id)">
-                        <div class="card-body d-flex justify-content-center align-items-center">
-                            <p class="noselect m-0">{{ choice.label }}</p>
-                        </div>
+        <div class="choicesWrapper mx-auto overflow-auto">
+            <div class="choices">
+                <div class="choice card mx-auto mb-3" :key="choice.id" v-for="choice in sectionChoices" :class="choiceClass(choice.selected !== -1)" @click="selectChoice(choice.id)">
+                    <div class="card-body d-flex justify-content-center align-items-center">
+                        <p class="noselect m-0">{{ choice.label }}</p>
                     </div>
                 </div>
-            </swiper-slide>
-            <div class="swiper-pagination" slot="pagination"></div>
-            <div class="swiper-button-prev" slot="button-prev"></div>
-            <div class="swiper-button-next" slot="button-next"></div>
-        </swiper>
+            </div>
+        </div>
         <div class="navigation d-flex justify-content-center align-items-center font-weight-bold mb-3">
             <p class="my-0 mr-2">KUOTA</p>
             <h2 class="my-0 mr-3"><span class="quota badge rounded-lg badge-primary py-3 px-4">{{ maxSelect - selectedCount[section] }}</span></h2>
-            <button v-if="section < 3" @click="nextPage()" class="btn btn-lg btn-temali rounded-pill font-weight-bold py-4" :class="{disabled: selectedCount[section] < minSelect}">LANJUT!</button>
-            <button v-else @click="submit()" class="btn btn-lg btn-warning rounded-pill font-weight-bold py-4" :class="{disabled: selectedCount[section] < minSelect}">PROSES HASILNYA!</button>
+            <button v-if="section < 3" @click="nextPage()" class="btn btn-lg btn-temali rounded-pill font-weight-bold py-4" :class="{invisible: selectedCount[section] < minSelect}">LANJUT!</button>
+            <button v-else @click="submit()" class="btn btn-lg btn-temali rounded-pill font-weight-bold py-4" :class="{invisible: selectedCount[section] < minSelect}">PROSES HASILNYA!</button>
         </div>
     </div>
 </template>
@@ -61,9 +56,10 @@ export default {
             section: 0,
             choices: [],
             selectedCount: [0, 0, 0, 0],
-            minSelect: 2,
+            minSelect: 5,
             maxSelect: 7,
             choicePerPage: 6,
+            btnWarning: "Pilih minimal 5",
             swiperOptions: {
                 pagination: {
                     el: '.swiper-pagination'
@@ -98,6 +94,15 @@ export default {
                 choice.selected = -1;
                 this.selectedCount[this.section]--;
             }
+        },
+        choiceClass(selected) {
+            return {
+                'selected': selected,
+                'sec-0': this.section == 0,
+                'sec-1': this.section == 1,
+                'sec-2': this.section == 2,
+                'sec-3': this.section == 3
+            };
         },
         // Move to the next section 
         nextPage() {
@@ -156,12 +161,14 @@ export default {
     font-size: 18px;
 }
 
-.choices {
+.choicesWrapper {
+    height: 500px;
     margin-bottom: 50px;
+    max-width: 550px;
 }
 
 .choice {
-    max-width: 500px;
+    max-width: 90%;
     cursor: pointer;
     border-style: solid;
     border-width: 5px;
@@ -172,11 +179,11 @@ export default {
 }
 
 .choice.sec-0 {
-    background-color: #FAA200;
+    background-color: #51A5A8;
 }
 
 .choice.sec-0:hover {
-    background-color: #F2D399;
+    background-color: #3A7C80;
 } 
 
 .choice.sec-1 {
@@ -184,23 +191,23 @@ export default {
 }
 
 .choice.sec-1:hover {
-    background-color: #D6E6A3;
+    background-color: #687931;
 }
 
 .choice.sec-2 {
-    background-color: #FFF;
+    background-color: #FAA200;
 }
 
 .choice.sec-2:hover {
-    background-color: #FFF;
+    background-color: #9e6803;
 }
 
 .choice.sec-3 {
-    background-color: #FFF;
+    background-color: #c74545;
 }
 
 .choice.sec-3:hover {
-    background-color: #FFF;
+    background-color: #7a3d3d;
 }
 
 .choice:hover {
@@ -214,5 +221,9 @@ export default {
 .quota {
     background-color: #566FB8;
     box-shadow: 0 5px #94A3CF;
+}
+
+.btn.invisible {
+    display: none;
 }
 </style>

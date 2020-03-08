@@ -30,7 +30,7 @@
             </p>
             <form @submit="downloadPDF" class="form-inline my-3">
                 <input type="text" class="form-control form-control-lg ml-auto mb-2 mr-sm-2" placeholder="Nama" name="name" v-model="inputName" required/>
-                <button type="submit" class="btn btn-lg btn-warning rounded-pill font-weight-bold py-4 mx-auto ml-sm-0 mb-2">DOWNLOAD PDF</button>
+                <button type="submit" class="btn btn-lg btn-temali rounded-pill font-weight-bold py-4 mx-auto ml-sm-0 mb-2">DOWNLOAD PDF</button>
             </form>
         </div>
         <router-link to="/lastt/test">

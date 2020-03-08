@@ -305,7 +305,7 @@ var render = function() {
                   "button",
                   {
                     staticClass:
-                      "btn btn-lg btn-warning rounded-pill font-weight-bold py-4 mx-auto ml-sm-0 mb-2",
+                      "btn btn-lg btn-temali rounded-pill font-weight-bold py-4 mx-auto ml-sm-0 mb-2",
                     attrs: { type: "submit" }
                   },
                   [_vm._v("DOWNLOAD PDF")]
